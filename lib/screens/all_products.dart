@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api_test/models/product.dart';
+import 'package:flutter_api_test/screens/create_new_product.dart';
 import 'package:flutter_api_test/screens/single_product_page.dart';
 import 'package:flutter_api_test/services/api_services.dart';
 
@@ -20,6 +21,16 @@ class _AllProductsState extends State<AllProducts> {
       appBar: AppBar(
         forceMaterialTransparency: true,
         title: const Text("All Products"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateNewProduct(),
+              ));
+        },
+        child: Icon(Icons.add),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -60,7 +71,7 @@ class _AllProductsState extends State<AllProducts> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => SingleProductPage(
-                                productId: product.id,
+                                productId: product.id!,
                               ),
                             ));
                       },

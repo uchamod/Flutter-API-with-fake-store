@@ -27,6 +27,7 @@ class ApiServices {
       throw Exception("data is not fetched:somthing went wrong");
     }
   }
+
   //get single data
   Future<Product> getSingleProduct(int id) async {
     String url = "https://fakestoreapi.com/products/$id";
@@ -38,6 +39,28 @@ class ApiServices {
         return product;
       } else {
         print("data is not fetched from server ${respones.statusCode}");
+        throw Exception("somthing went wrong");
+      }
+    } catch (err) {
+      print("the error is " + err.toString());
+      throw Exception("data is not fetched:somthing went wrong");
+    }
+  }
+
+  //save a new product
+  Future<Product> saveProduct(Product product) async {
+    String url = "https://fakestoreapi.com/products";
+    try {
+      final response = await http.post(Uri.parse(url),
+          headers: {"Content-Type": "application/json"},
+          body: json.encode(product.toJson(product)));
+      print("status code ${response.statusCode}");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Product newProduct = Product.fromJson(json.decode(response.body));
+        print("save new product ${response.body}");
+        return newProduct;
+      } else {
+        print("data is not fetched from server ${response.statusCode}");
         throw Exception("somthing went wrong");
       }
     } catch (err) {
