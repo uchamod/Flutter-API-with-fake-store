@@ -68,4 +68,45 @@ class ApiServices {
       throw Exception("data is not fetched:somthing went wrong");
     }
   }
+
+  //update a product
+  Future<Product> updateProduct(int id, Product product) async {
+    String url = "https://fakestoreapi.com/products/$id";
+    try {
+      final updatedProduct = await http.put(
+        Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(product.toJson(product)),
+      );
+      print("status code ${updatedProduct.statusCode}");
+      if (updatedProduct.statusCode == 200 ||
+          updatedProduct.statusCode == 201) {
+        Product newProduct = Product.fromJson(json.decode(updatedProduct.body));
+        print("updated the product ${updatedProduct.body}");
+        return newProduct;
+      } else {
+        print("data is not fetched from server ${updatedProduct.statusCode}");
+        throw Exception("somthing went wrong");
+      }
+    } catch (err) {
+      print("the error is " + err.toString());
+      throw Exception("data is not fetched:somthing went wrong");
+    }
+  }
+
+  //delete product
+  Future<void> deleteProduct(int id) async {
+    String url = "https://fakestoreapi.com/products/$id";
+    try {
+      final response = await http.delete(Uri.parse(url));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("delete product succsussfuly ${response.body}");
+      } else {
+        print("failed to delete product ${response.statusCode}");
+      }
+    } catch (err) {
+      print("the error is " + err.toString());
+      throw Exception("data is not fetched:somthing went wrong");
+    }
+  }
 }

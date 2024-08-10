@@ -98,6 +98,7 @@ class _CreateNewProductState extends State<CreateNewProduct> {
                   //add new product
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      //save current data
                       _formKey.currentState!.save();
                       Product product = Product(
                           title: title,

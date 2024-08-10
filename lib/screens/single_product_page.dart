@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api_test/models/product.dart';
+import 'package:flutter_api_test/screens/update_product.dart';
 import 'package:flutter_api_test/services/api_services.dart';
 
 class SingleProductPage extends StatefulWidget {
@@ -68,6 +69,25 @@ class _SingleProductPageState extends State<SingleProductPage> {
                         product.discription,
                         style: const TextStyle(
                             fontSize: 14, color: Colors.black54),
+                      ),
+                      Row(
+                        children: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          UpdateProduct(product: product),
+                                    ));
+                              },
+                              child: Text("Update Product")),
+                          ElevatedButton(
+                              onPressed: () {
+                                apiServices.deleteProduct(product.id!);
+                              },
+                              child: Text("Delete Product")),
+                        ],
                       )
                     ],
                   ),
